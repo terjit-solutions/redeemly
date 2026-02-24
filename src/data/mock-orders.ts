@@ -51,8 +51,8 @@ export const mockOrders: Order[] = [
   {
     id: "ORD-004",
     userId: "user-1",
-    serviceName: "Steam Wallet",
-    planName: "$20 Steam Card",
+    serviceName: "Roblox",
+    planName: "$25 Roblox Card",
     status: "confirmed",
     paymentMethod: "BimBank",
     totalMRU: 780,

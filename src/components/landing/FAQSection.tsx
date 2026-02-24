@@ -36,8 +36,8 @@ const faqs = [
   {
     q: { en: "What payment methods do you accept?", ar: "ما طرق الدفع المقبولة؟", fr: "Quels moyens de paiement acceptez-vous ?" },
     a: {
-      en: "We accept all major Mauritanian e-wallets: Bankily, Sedad, Masrivi, and BimBank. Simply transfer MRU to our merchant account and upload the payment confirmation screenshot.",
-      ar: "نقبل جميع المحافظ الإلكترونية الموريتانية الرئيسية: بنكلي وسداد ومصرفي وبيم بنك. ببساطة قم بتحويل الأوقية إلى حسابنا التجاري وارفع لقطة شاشة تأكيد الدفع.",
+      en: "We accept all major Mauritanian e-wallets: Bankily, Sedad, Masrivi, and BimBank. Simply transfer MRU to our merchant account and enter the last 6 digits of your transaction code to confirm.",
+      ar: "نقبل جميع المحافظ الإلكترونية الموريتانية الرئيسية: بنكلي وسداد ومصرفي وبيم بنك. ببساطة قم بتحويل الأوقية إلى حسابنا التجاري وأدخل آخر 6 أرقام من رمز المعاملة للتأكيد.",
       fr: "Nous acceptons tous les principaux portefeuilles mauritaniens : Bankily, Sedad, Masrivi et BimBank. Transférez simplement des MRU à notre compte marchand.",
     },
   },

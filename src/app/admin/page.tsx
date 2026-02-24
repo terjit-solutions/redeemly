@@ -55,7 +55,7 @@ const topServices = [
   { name: "Spotify Premium", count: 42, color: "#1DB954" },
   { name: "Netflix", count: 38, color: "#E50914" },
   { name: "ChatGPT Plus", count: 27, color: "#10A37F" },
-  { name: "Steam Wallet", count: 21, color: "#1B2838" },
+  { name: "Roblox", count: 21, color: "#E3231D" },
   { name: "PlayStation Plus", count: 15, color: "#003087" },
 ];
 

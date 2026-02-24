@@ -444,7 +444,7 @@ function StepSendPayment({
           `اذهب إلى "إرسال أموال" أو "تحويل"`,
           `أدخل رقم التاجر: ${MERCHANT_ID}`,
           `أدخل المبلغ بالضبط: ${cart ? formatMRU(cart.priceMRU) : ""}`,
-          "أكد العملية وخذ لقطة شاشة",
+          "أكد العملية",
         ]
       : language === "fr"
         ? [
@@ -452,14 +452,14 @@ function StepSendPayment({
             `Allez dans "Envoyer de l'argent" ou "Transfert"`,
             `Entrez l'ID marchand : ${MERCHANT_ID}`,
             `Entrez le montant exact : ${cart ? formatMRU(cart.priceMRU) : ""}`,
-            "Confirmez la transaction et prenez une capture d'ecran",
+            "Confirmez la transaction",
           ]
         : [
             `Open the ${methodName} app on your phone`,
             `Go to "Send Money" or "Transfer"`,
             `Enter the Merchant ID: ${MERCHANT_ID}`,
             `Enter the exact amount: ${cart ? formatMRU(cart.priceMRU) : ""}`,
-            "Confirm the transaction and take a screenshot",
+            "Confirm the transaction",
           ];
 
   return (
@@ -689,10 +689,12 @@ function StepConfirmation({
   isDark,
   language,
   orderRef,
+  onReset,
 }: {
   isDark: boolean;
   language: "en" | "ar" | "fr";
   orderRef: string;
+  onReset: () => void;
 }) {
   return (
     <div className="text-center py-4 space-y-6 relative overflow-hidden">
@@ -781,6 +783,7 @@ function StepConfirmation({
       >
         <Link
           href="/dashboard"
+          onClick={onReset}
           className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-teal text-navy font-semibold hover:bg-teal-light transition-colors"
         >
           <CreditCard size={16} />
@@ -788,6 +791,7 @@ function StepConfirmation({
         </Link>
         <Link
           href="/catalog"
+          onClick={onReset}
           className={cn(
             "w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-colors border",
             isDark
@@ -836,9 +840,8 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (step === 5 && !orderRef) {
       setOrderRef(generateOrderRef());
-      reset();
     }
-  }, [step, orderRef, reset]);
+  }, [step, orderRef]);
 
   const canContinue = (): boolean => {
     switch (step) {
@@ -921,6 +924,7 @@ export default function CheckoutPage() {
                   isDark={isDark}
                   language={language}
                   orderRef={orderRef}
+                  onReset={reset}
                 />
               )}
             </motion.div>

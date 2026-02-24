@@ -56,7 +56,7 @@ const pricingRows: PricingRow[] = [
   { emoji: "\uD83C\uDFAC", service: "Netflix", plan: "Standard", price: "604 MRU", recurring: true },
   { emoji: "\uD83E\uDD16", service: "ChatGPT Plus", plan: "Monthly", price: "780 MRU", recurring: true },
   { emoji: "\uD83C\uDF4E", service: "Apple Gift Card", plan: "$25 Card", price: "975 MRU", recurring: false },
-  { emoji: "\uD83C\uDFAE", service: "Steam Wallet", plan: "$20 Card", price: "780 MRU", recurring: false },
+  { emoji: "🟥", service: "Roblox", plan: "$25 Card", price: "975 MRU", recurring: false },
 ];
 
 /* ------------------------------------------------------------------ */
