@@ -29,11 +29,6 @@ const copy = {
     ar: "\u0643\u064a\u0641 \u064a\u0639\u0645\u0644",
     fr: "Comment \u00e7a marche",
   },
-  faq: {
-    en: "FAQ",
-    ar: "\u0627\u0644\u0623\u0633\u0626\u0644\u0629 \u0627\u0644\u0634\u0627\u0626\u0639\u0629",
-    fr: "FAQ",
-  },
   terms: {
     en: "Terms",
     ar: "\u0627\u0644\u0634\u0631\u0648\u0637",
@@ -54,11 +49,6 @@ const copy = {
     ar: "\u062a\u0648\u0627\u0635\u0644 \u0639\u0628\u0631 \u0648\u0627\u062a\u0633\u0627\u0628",
     fr: "Discuter sur WhatsApp",
   },
-  followUs: {
-    en: "Follow us",
-    ar: "\u062a\u0627\u0628\u0639\u0646\u0627",
-    fr: "Suivez-nous",
-  },
   rights: {
     en: "\u00a9 2026 Redeemly. All rights reserved.",
     ar: "\u00a9 2026 Redeemly. \u062c\u0645\u064a\u0639 \u0627\u0644\u062d\u0642\u0648\u0642 \u0645\u062d\u0641\u0648\u0638\u0629.",
@@ -78,7 +68,6 @@ const serviceLinks = [
 
 const companyLinks = [
   { key: "howItWorks" as const, href: "#how-it-works" },
-  { key: "faq" as const, href: "#faq" },
   { key: "terms" as const, href: "/terms" },
   { key: "privacy" as const, href: "/privacy" },
 ];
@@ -196,21 +185,6 @@ export function LandingFooter() {
                 {copy.whatsapp[language]}
               </a>
 
-              {/* Follow us */}
-              <p className="text-sand/40 text-xs mt-5">
-                {copy.followUs[language]}
-              </p>
-              <div className="flex items-center gap-3 mt-2">
-                {/* Social icon placeholders */}
-                {["X", "IG", "FB"].map((icon) => (
-                  <span
-                    key={icon}
-                    className="w-8 h-8 rounded-full bg-sand/10 flex items-center justify-center text-sand/40 text-xs font-medium hover:bg-sand/20 hover:text-sand/60 transition-colors cursor-pointer"
-                  >
-                    {icon}
-                  </span>
-                ))}
-              </div>
             </div>
           </div>
 
@@ -226,8 +200,7 @@ export function LandingFooter() {
               Made by{" "}
               <a href="https://terjitsolutions.com" target="_blank" rel="noopener noreferrer" className="text-sand/50 hover:text-copper transition-colors">
                 Terjit Solutions
-              </a>{" "}
-              <span role="img" aria-label="Mauritania">🇲🇷</span>
+              </a>
             </p>
           </div>
         </div>

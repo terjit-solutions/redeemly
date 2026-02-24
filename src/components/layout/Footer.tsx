@@ -20,12 +20,11 @@ export function Footer() {
     ],
     company: [
       { label: t("footer.about", language), href: "#" },
-      { label: t("footer.terms", language), href: "#" },
-      { label: t("footer.privacy", language), href: "#" },
+      { label: t("footer.terms", language), href: "/terms" },
+      { label: t("footer.privacy", language), href: "/privacy" },
     ],
     support: [
       { label: t("footer.contact", language), href: "#" },
-      { label: t("footer.faq", language), href: "#" },
       { label: t("footer.whatsapp", language), href: "https://wa.me/22200000000" },
     ],
   };

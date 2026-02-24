@@ -102,7 +102,7 @@ const translations = {
   "checkout.step1": { en: "Confirm Order", ar: "تأكيد الطلب", fr: "Confirmer la commande" },
   "checkout.step2": { en: "Payment Method", ar: "طريقة الدفع", fr: "Méthode de paiement" },
   "checkout.step3": { en: "Send Payment", ar: "إرسال الدفع", fr: "Envoyer le paiement" },
-  "checkout.step4": { en: "Upload Proof", ar: "رفع إثبات", fr: "Télécharger la preuve" },
+  "checkout.step4": { en: "Confirm Transaction", ar: "تأكيد المعاملة", fr: "Confirmer la transaction" },
   "checkout.step5": { en: "Confirmation", ar: "التأكيد", fr: "Confirmation" },
   "checkout.continue": { en: "Continue", ar: "متابعة", fr: "Continuer" },
   "checkout.back": { en: "Back", ar: "رجوع", fr: "Retour" },
@@ -116,7 +116,7 @@ const translations = {
   "checkout.merchantId": { en: "Merchant ID", ar: "رقم التاجر", fr: "ID Marchand" },
   "checkout.amount": { en: "Amount", ar: "المبلغ", fr: "Montant" },
   "checkout.copied": { en: "Copied!", ar: "تم النسخ!", fr: "Copié !" },
-  "checkout.uploadScreenshot": { en: "Upload payment screenshot", ar: "ارفع لقطة شاشة الدفع", fr: "Télécharger la capture d'écran" },
+
   "checkout.selectPayment": { en: "Select your payment method", ar: "اختر طريقة الدفع", fr: "Sélectionnez votre méthode de paiement" },
   "checkout.sendPayment": { en: "Send the exact amount to our merchant account", ar: "أرسل المبلغ المحدد إلى حسابنا التجاري", fr: "Envoyez le montant exact à notre compte marchand" },
 
@@ -154,7 +154,6 @@ const translations = {
   "footer.terms": { en: "Terms of Service", ar: "شروط الخدمة", fr: "Conditions d'utilisation" },
   "footer.privacy": { en: "Privacy Policy", ar: "سياسة الخصوصية", fr: "Politique de confidentialité" },
   "footer.contact": { en: "Contact Us", ar: "اتصل بنا", fr: "Contactez-nous" },
-  "footer.faq": { en: "FAQ", ar: "الأسئلة الشائعة", fr: "FAQ" },
   "footer.whatsapp": { en: "WhatsApp Support", ar: "دعم الواتساب", fr: "Support WhatsApp" },
   "footer.rights": { en: "All rights reserved.", ar: "جميع الحقوق محفوظة.", fr: "Tous droits réservés." },
   "footer.madeIn": { en: "Made with ♥ in Mauritania", ar: "صنع بـ ♥ في موريتانيا", fr: "Fait avec ♥ en Mauritanie" },

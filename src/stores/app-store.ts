@@ -30,13 +30,21 @@ export interface CartItem {
   priceUSD: number;
 }
 
+export interface GiftDetails {
+  recipientContact: string;   // phone number or email
+  fromName: string;           // sender's name (empty when anonymous)
+  isAnonymous: boolean;
+}
+
 interface CheckoutState {
   cart: CartItem | null;
   paymentMethod: string | null;
   step: number;
+  giftDetails: GiftDetails | null;
   setCart: (item: CartItem | null) => void;
   setPaymentMethod: (method: string) => void;
   setStep: (step: number) => void;
+  setGiftDetails: (details: GiftDetails | null) => void;
   reset: () => void;
 }
 
@@ -44,8 +52,10 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
   cart: null,
   paymentMethod: null,
   step: 1,
+  giftDetails: null,
   setCart: (cart) => set({ cart }),
   setPaymentMethod: (paymentMethod) => set({ paymentMethod }),
   setStep: (step) => set({ step }),
-  reset: () => set({ cart: null, paymentMethod: null, step: 1 }),
+  setGiftDetails: (giftDetails) => set({ giftDetails }),
+  reset: () => set({ cart: null, paymentMethod: null, step: 1, giftDetails: null }),
 }));

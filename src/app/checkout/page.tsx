@@ -16,6 +16,8 @@ import {
   Package,
   Clock,
   Shield,
+  Gift,
+  EyeOff,
 } from "lucide-react";
 import { useCheckoutStore, useAppStore } from "@/stores/app-store";
 import { t, isRTL } from "@/lib/translations";
@@ -159,6 +161,7 @@ function StepConfirmOrder({
   language: "en" | "ar" | "fr";
 }) {
   const cart = useCheckoutStore((s) => s.cart);
+  const giftDetails = useCheckoutStore((s) => s.giftDetails);
 
   if (!cart) {
     return (
@@ -247,6 +250,46 @@ function StepConfirmOrder({
           </div>
         </div>
       </div>
+
+      {/* Gift details */}
+      {giftDetails && (
+        <div className={cn(
+          "rounded-2xl p-5 border",
+          isDark ? "bg-card-dark border-border-dark" : "bg-white border-gray-100 shadow-sm"
+        )}>
+          <div className="flex items-center gap-2 mb-4">
+            <Gift size={16} className="text-copper" />
+            <span className={cn("text-sm font-semibold", isDark ? "text-white" : "text-navy")}>
+              {language === "ar" ? "تفاصيل الهدية" : language === "fr" ? "Détails du cadeau" : "Gift Details"}
+            </span>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className={cn("text-xs font-medium", isDark ? "text-gray-400" : "text-gray-500")}>
+                {language === "ar" ? "المستلم" : language === "fr" ? "Destinataire" : "Recipient"}
+              </span>
+              <span className={cn("text-sm font-semibold", isDark ? "text-white" : "text-navy")}>
+                {giftDetails.recipientContact}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className={cn("text-xs font-medium", isDark ? "text-gray-400" : "text-gray-500")}>
+                {language === "ar" ? "من" : language === "fr" ? "De la part de" : "From"}
+              </span>
+              {giftDetails.isAnonymous ? (
+                <span className={cn("flex items-center gap-1 text-sm", isDark ? "text-gray-500" : "text-gray-400")}>
+                  <EyeOff size={13} />
+                  {language === "ar" ? "مجهول" : language === "fr" ? "Anonyme" : "Anonymous"}
+                </span>
+              ) : (
+                <span className={cn("text-sm font-semibold", isDark ? "text-white" : "text-navy")}>
+                  {giftDetails.fromName || "—"}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div
         className={cn(
@@ -539,159 +582,104 @@ function StepSendPayment({
   );
 }
 
-// ─── Step 4: Upload Proof ───────────────────────────────────────────────────
-function StepUploadProof({
+// ─── Step 4: Transaction Code ────────────────────────────────────────────────
+function StepTransactionCode({
   isDark,
   language,
-  uploaded,
-  setUploaded,
   txRef,
   setTxRef,
 }: {
   isDark: boolean;
   language: "en" | "ar" | "fr";
-  uploaded: boolean;
-  setUploaded: (v: boolean) => void;
   txRef: string;
   setTxRef: (v: string) => void;
 }) {
-  const [uploading, setUploading] = useState(false);
+  const rtl = isRTL(language);
+  const digits = txRef.split("").concat(Array(6 - txRef.length).fill(""));
 
-  const handleUpload = () => {
-    if (uploaded) return;
-    setUploading(true);
-    setTimeout(() => {
-      setUploading(false);
-      setUploaded(true);
-    }, 1500);
+  const handleChange = (index: number, value: string) => {
+    if (value && !/^\d$/.test(value)) return;
+    const arr = txRef.split("").concat(Array(6).fill(""));
+    arr[index] = value;
+    const newRef = arr.slice(0, 6).join("").replace(/[^\d]/g, "");
+    setTxRef(newRef);
+    if (value && index < 5) {
+      const next = document.getElementById(`txn-${index + 1}`);
+      next?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && !digits[index] && index > 0) {
+      const prev = document.getElementById(`txn-${index - 1}`);
+      prev?.focus();
+    }
   };
 
   return (
     <div className="space-y-6">
       <div className="text-center mb-2">
-        <h2 className={cn("text-xl font-bold", isDark ? "text-white" : "text-navy")}>
-          {t("checkout.step4", language)}
+        <h2 className={cn("text-xl font-bold", isDark ? "text-sand" : "text-rich-black")}>
+          {language === "ar" ? "تأكيد المعاملة" : language === "fr" ? "Confirmer la transaction" : "Confirm Transaction"}
         </h2>
-        <p className={cn("text-sm mt-1", isDark ? "text-gray-400" : "text-gray-500")}>
-          {t("checkout.uploadScreenshot", language)}
+        <p className={cn("text-sm mt-1", isDark ? "text-sand/50" : "text-rich-black/50")}>
+          {language === "ar"
+            ? "أدخل آخر 6 أرقام من رمز المعاملة"
+            : language === "fr"
+              ? "Entrez les 6 derniers chiffres du code de transaction"
+              : "Enter the last 6 digits of your transaction code"}
         </p>
       </div>
 
-      {/* Upload area */}
-      <motion.button
-        whileHover={!uploaded && !uploading ? { scale: 1.01 } : {}}
-        whileTap={!uploaded && !uploading ? { scale: 0.99 } : {}}
-        onClick={handleUpload}
-        className={cn(
-          "w-full rounded-2xl border-2 border-dashed p-10 flex flex-col items-center justify-center gap-3 transition-all duration-300 cursor-pointer",
-          uploaded
-            ? "border-teal/40 bg-teal/5"
-            : uploading
-              ? isDark
-                ? "border-white/20 bg-white/5"
-                : "border-gray-300 bg-gray-50"
-              : isDark
-                ? "border-white/15 bg-card-dark hover:border-teal/30 hover:bg-teal/5"
-                : "border-gray-200 bg-white hover:border-teal/30 hover:bg-teal/5 shadow-sm"
-        )}
-      >
-        {uploaded ? (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="flex flex-col items-center gap-3"
-          >
-            <div className="w-14 h-14 rounded-full bg-teal/20 flex items-center justify-center">
-              <CheckCircle2 size={28} className="text-teal" />
-            </div>
-            <span className={cn("text-sm font-semibold", isDark ? "text-gray-200" : "text-gray-700")}>
-              {language === "ar"
-                ? "تم رفع لقطة الشاشة"
-                : language === "fr"
-                  ? "Capture d'ecran telechargee"
-                  : "Screenshot uploaded"}
-            </span>
-            <span className={cn("text-xs", isDark ? "text-gray-500" : "text-gray-400")}>
-              payment_proof.jpg
-            </span>
-          </motion.div>
-        ) : uploading ? (
-          <div className="flex flex-col items-center gap-3">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-              className="w-10 h-10 rounded-full border-2 border-teal border-t-transparent"
-            />
-            <span className={cn("text-sm", isDark ? "text-gray-400" : "text-gray-500")}>
-              {language === "ar"
-                ? "جاري الرفع..."
-                : language === "fr"
-                  ? "Telechargement..."
-                  : "Uploading..."}
-            </span>
-          </div>
-        ) : (
-          <>
-            <div
-              className={cn(
-                "w-14 h-14 rounded-full flex items-center justify-center",
-                isDark ? "bg-white/10" : "bg-gray-100"
-              )}
-            >
-              <Upload size={24} className={isDark ? "text-gray-400" : "text-gray-500"} />
-            </div>
-            <span className={cn("text-sm font-medium", isDark ? "text-gray-300" : "text-gray-600")}>
-              {language === "ar"
-                ? "اضغط لرفع لقطة شاشة الدفع"
-                : language === "fr"
-                  ? "Cliquez pour telecharger la capture d'ecran"
-                  : "Click to upload payment screenshot"}
-            </span>
-            <span className={cn("text-xs", isDark ? "text-gray-600" : "text-gray-400")}>
-              {language === "ar"
-                ? "أو اسحب وأسقط الملف هنا"
-                : language === "fr"
-                  ? "Ou glissez-deposez le fichier ici"
-                  : "Or drag and drop file here"}
-            </span>
-          </>
-        )}
-      </motion.button>
-
-      {/* Transaction reference */}
-      <div>
-        <label
-          className={cn(
-            "block text-sm font-medium mb-2",
-            isDark ? "text-gray-300" : "text-gray-600"
-          )}
-        >
+      {/* Info card */}
+      <div className={cn(
+        "flex items-start gap-3 p-4 rounded-xl",
+        isDark ? "bg-copper/10" : "bg-copper/5"
+      )}>
+        <Shield size={18} className="text-copper flex-shrink-0 mt-0.5" />
+        <p className={cn("text-xs leading-relaxed", isDark ? "text-sand/60" : "text-rich-black/60")}>
           {language === "ar"
-            ? "رقم المعاملة (اختياري)"
+            ? "ستجد رمز المعاملة في رسالة التأكيد من تطبيق الدفع. أدخل الأرقام الستة الأخيرة فقط."
             : language === "fr"
-              ? "Reference de transaction (optionnel)"
-              : "Transaction reference (optional)"}
-        </label>
-        <input
-          type="text"
-          value={txRef}
-          onChange={(e) => setTxRef(e.target.value)}
-          placeholder={
-            language === "ar"
-              ? "مثال: TXN-123456"
-              : language === "fr"
-                ? "Ex: TXN-123456"
-                : "e.g. TXN-123456"
-          }
-          className={cn(
-            "w-full px-4 py-3 rounded-xl text-sm outline-none transition-colors border",
-            isDark
-              ? "bg-card-dark border-border-dark text-white placeholder:text-gray-600 focus:border-teal/40"
-              : "bg-white border-gray-200 text-navy placeholder:text-gray-400 focus:border-teal/40 shadow-sm"
-          )}
-        />
+              ? "Vous trouverez le code dans le message de confirmation de votre app de paiement. Entrez uniquement les 6 derniers chiffres."
+              : "You'll find the transaction code in the confirmation message from your payment app. Enter only the last 6 digits."}
+        </p>
       </div>
+
+      {/* 6-digit input */}
+      <div className={cn("flex justify-center gap-3", rtl && "flex-row-reverse")}>
+        {digits.slice(0, 6).map((digit, i) => (
+          <input
+            key={i}
+            id={`txn-${i}`}
+            type="text"
+            inputMode="numeric"
+            maxLength={1}
+            value={digit}
+            onChange={(e) => handleChange(i, e.target.value.slice(-1))}
+            onKeyDown={(e) => handleKeyDown(i, e)}
+            className={cn(
+              "w-12 h-14 text-center text-xl font-bold rounded-xl border outline-none transition-all",
+              "focus:border-copper focus:ring-2 focus:ring-copper/20",
+              digit
+                ? "border-copper bg-copper/5"
+                : isDark
+                  ? "bg-[#1E1E1E] border-gold/[0.1]"
+                  : "bg-white border-rich-black/[0.08]",
+              isDark ? "text-sand" : "text-rich-black"
+            )}
+          />
+        ))}
+      </div>
+
+      {/* Example */}
+      <p className={cn("text-center text-xs", isDark ? "text-sand/30" : "text-rich-black/30")}>
+        {language === "ar"
+          ? "مثال: إذا كان رمز المعاملة TXN-2024-847291، أدخل 847291"
+          : language === "fr"
+            ? "Ex: Si le code est TXN-2024-847291, entrez 847291"
+            : "Example: If your code is TXN-2024-847291, enter 847291"}
+      </p>
     </div>
   );
 }
@@ -841,7 +829,6 @@ export default function CheckoutPage() {
   const rtl = isRTL(language);
 
   const [direction, setDirection] = useState(0);
-  const [uploaded, setUploaded] = useState(false);
   const [txRef, setTxRef] = useState("");
   const [orderRef, setOrderRef] = useState("");
 
@@ -862,7 +849,7 @@ export default function CheckoutPage() {
       case 3:
         return true;
       case 4:
-        return uploaded;
+        return txRef.length === 6;
       default:
         return false;
     }
@@ -922,11 +909,9 @@ export default function CheckoutPage() {
                 <StepSendPayment isDark={isDark} language={language} />
               )}
               {step === 4 && (
-                <StepUploadProof
+                <StepTransactionCode
                   isDark={isDark}
                   language={language}
-                  uploaded={uploaded}
-                  setUploaded={setUploaded}
                   txRef={txRef}
                   setTxRef={setTxRef}
                 />
