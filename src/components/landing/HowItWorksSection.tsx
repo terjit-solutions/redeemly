@@ -57,22 +57,21 @@ const cards = [
 function HandDrawnUnderline({ isInView }: { isInView: boolean }) {
   return (
     <svg
-      width="200"
-      height="12"
-      viewBox="0 0 200 12"
+      viewBox="0 0 600 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block", margin: "12px auto 0" }}
+      preserveAspectRatio="none"
+      style={{ display: "block", margin: "16px auto 0", width: "min(100%, 600px)", height: "14px" }}
     >
       <motion.path
-        d="M2 8 C 30 2, 50 10, 80 5 S 130 9, 160 4 S 185 8, 198 6"
+        d="M2 9 C 40 3, 80 12, 120 6 S 200 11, 250 5 S 340 10, 400 6 S 480 11, 530 5 S 570 9, 598 7"
         stroke="#C4713B"
-        strokeWidth={1.5}
+        strokeWidth={2.5}
         strokeLinecap="round"
         fill="none"
         initial={{ pathLength: 0 }}
         animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
-        transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
       />
     </svg>
   );
