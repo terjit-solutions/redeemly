@@ -4,6 +4,7 @@ const translations = {
   // Navigation
   "nav.home": { en: "Home", ar: "الرئيسية", fr: "Accueil" },
   "nav.catalog": { en: "Catalog", ar: "الكتالوج", fr: "Catalogue" },
+  "nav.gifts": { en: "Gifts", ar: "هدايا", fr: "Cadeaux" },
   "nav.dashboard": { en: "Dashboard", ar: "لوحة التحكم", fr: "Tableau de bord" },
   "nav.login": { en: "Log In", ar: "تسجيل الدخول", fr: "Connexion" },
   "nav.signup": { en: "Sign Up", ar: "إنشاء حساب", fr: "S'inscrire" },
