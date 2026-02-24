@@ -1,16 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check, Shield } from "lucide-react";
 import { useAppStore } from "@/stores/app-store";
 import { isRTL } from "@/lib/translations";
 import { cn } from "@/lib/utils";
-
-/* ------------------------------------------------------------------ */
-/*  Copy — trilingual                                                  */
-/* ------------------------------------------------------------------ */
 
 const copy = {
   eyebrow: {
@@ -45,55 +40,36 @@ const copy = {
   },
 } as const;
 
-/* ------------------------------------------------------------------ */
-/*  Floating service bubbles                                           */
-/* ------------------------------------------------------------------ */
-
-const serviceBubbles = [
-  { emoji: "\uD83C\uDFB5", name: "Spotify", top: "12%", left: "18%" },
-  { emoji: "\uD83C\uDFAC", name: "Netflix", top: "8%", left: "58%" },
-  { emoji: "\uD83D\uDCBB", name: "ChatGPT", top: "35%", left: "8%" },
-  { emoji: "\uD83D\uDCFA", name: "YouTube", top: "32%", left: "62%" },
-  { emoji: "\uD83C\uDFAE", name: "PlayStation", top: "58%", left: "22%" },
-  { emoji: "\uD83D\uDCF1", name: "Apple", top: "55%", left: "56%" },
-];
-
-/* ------------------------------------------------------------------ */
-/*  Luxury easing curve                                                */
-/* ------------------------------------------------------------------ */
-
 const luxuryEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/* ------------------------------------------------------------------ */
-/*  Component                                                          */
-/* ------------------------------------------------------------------ */
+/* Mockup order items for the phone screen */
+const mockOrders = [
+  { name: "Spotify Premium", price: "429 MRU", color: "#1DB954", status: "Delivered" },
+  { name: "Netflix Standard", price: "604 MRU", color: "#E50914", status: "Delivered" },
+  { name: "ChatGPT Plus", price: "780 MRU", color: "#10A37F", status: "Processing" },
+];
 
 export function HeroSection() {
   const { language, theme } = useAppStore();
   const isDark = theme === "dark";
   const rtl = isRTL(language);
 
-  /* Parallax -------------------------------------------------------- */
   const { scrollY } = useScroll();
-  const archY = useTransform(scrollY, [0, 500], [0, -40]);
+  const phoneY = useTransform(scrollY, [0, 500], [0, -30]);
 
   return (
     <section
       className={cn(
         "grain relative overflow-hidden min-h-[auto] md:min-h-[90vh]",
-        "pt-24 sm:pt-36",
+        "pt-24 sm:pt-36 pb-12 sm:pb-16 md:pb-0",
         isDark ? "bg-[#131313]" : "bg-sand"
       )}
       dir={rtl ? "rtl" : "ltr"}
     >
-      {/* -------- Content wrapper -------- */}
       <div className="relative z-10 mx-auto max-w-7xl w-full px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col md:flex-row items-center">
-          {/* ======================================================== */}
-          {/*  LEFT SIDE — editorial copy                               */}
-          {/* ======================================================== */}
-          <div className="w-full md:w-[60%] py-6 sm:py-12 md:py-0">
-            {/* Eyebrow */}
+          {/* ============ LEFT SIDE ============ */}
+          <div className="w-full md:w-[55%] py-6 sm:py-12 md:py-0">
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -103,7 +79,6 @@ export function HeroSection() {
               {copy.eyebrow[language]}
             </motion.p>
 
-            {/* Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -119,7 +94,6 @@ export function HeroSection() {
               </span>
             </motion.h1>
 
-            {/* Subtitle */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -129,14 +103,12 @@ export function HeroSection() {
               {copy.subtitle[language]}
             </motion.p>
 
-            {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, ease: luxuryEase }}
               className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4"
             >
-              {/* Primary CTA */}
               <Link
                 href="/catalog"
                 className={cn(
@@ -153,8 +125,6 @@ export function HeroSection() {
                   )}
                 />
               </Link>
-
-              {/* Secondary CTA */}
               <Link
                 href="#how-it-works"
                 className={cn(
@@ -168,70 +138,111 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* ======================================================== */}
-          {/*  RIGHT SIDE — arch composition (desktop only)             */}
-          {/* ======================================================== */}
+          {/* ============ RIGHT SIDE — Phone mockup ============ */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, ease: luxuryEase }}
-            style={{ y: archY }}
-            className="hidden md:flex w-[40%] items-center justify-center py-8"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8, ease: luxuryEase }}
+            style={{ y: phoneY }}
+            className="hidden md:flex w-[45%] items-center justify-center py-8"
           >
-            {/* Moorish arch container */}
-            <div className="relative w-[320px] lg:w-[360px] h-[440px] lg:h-[500px]">
+            {/* Phone frame */}
+            <div
+              className={cn(
+                "relative w-[280px] lg:w-[300px] rounded-[2.5rem] p-3 shadow-2xl",
+                isDark
+                  ? "bg-[#1E1E1E] shadow-black/40"
+                  : "bg-rich-black shadow-rich-black/20"
+              )}
+            >
+              {/* Notch */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-inherit rounded-b-2xl z-10" />
+
+              {/* Screen */}
               <div
                 className={cn(
-                  "grain absolute inset-0 overflow-hidden rounded-t-[50%]",
-                  isDark ? "bg-gradient-to-b from-[#131313] via-copper/8 to-[#131313]" : "bg-gradient-to-b from-sand via-copper/5 to-sand"
+                  "rounded-[2rem] overflow-hidden",
+                  isDark ? "bg-[#131313]" : "bg-sand"
                 )}
-                style={{
-                  borderBottomLeftRadius: 0,
-                  borderBottomRightRadius: 0,
-                }}
               >
-                {/* Subtle inner border for arch elegance */}
-                <div
-                  className="absolute inset-3 rounded-t-[50%] border border-copper/10"
-                  style={{
-                    borderBottomLeftRadius: 0,
-                    borderBottomRightRadius: 0,
-                  }}
-                />
+                {/* Status bar */}
+                <div className={cn("flex items-center justify-between px-6 pt-8 pb-3", isDark ? "text-sand/40" : "text-rich-black/40")}>
+                  <span className="text-[10px] font-medium">9:41</span>
+                  <div className="flex items-center gap-1">
+                    <div className="w-3.5 h-[3px] rounded-full bg-current" />
+                    <div className="w-2.5 h-[3px] rounded-full bg-current opacity-60" />
+                    <div className="w-1.5 h-[3px] rounded-full bg-current opacity-30" />
+                  </div>
+                </div>
 
-                {/* Floating service bubbles */}
-                {serviceBubbles.map((bubble, index) => (
+                {/* App header */}
+                <div className="px-5 pb-4">
+                  <p className="font-[family-name:var(--font-playfair)] text-lg font-bold text-copper">
+                    Redeemly
+                  </p>
+                  <p className={cn("text-[10px] mt-0.5", isDark ? "text-sand/40" : "text-rich-black/40")}>
+                    Your recent orders
+                  </p>
+                </div>
+
+                {/* Order cards */}
+                <div className="px-4 pb-6 space-y-2.5">
+                  {mockOrders.map((order, i) => (
+                    <motion.div
+                      key={order.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 + i * 0.15, duration: 0.5, ease: luxuryEase }}
+                      className={cn(
+                        "flex items-center gap-3 p-3 rounded-xl",
+                        isDark ? "bg-[#1E1E1E]" : "bg-white"
+                      )}
+                    >
+                      {/* Brand dot */}
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: order.color }}
+                      >
+                        <span className="text-white text-xs font-bold">
+                          {order.name.charAt(0)}
+                        </span>
+                      </div>
+
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <p className={cn("text-xs font-semibold truncate", isDark ? "text-sand" : "text-rich-black")}>
+                          {order.name}
+                        </p>
+                        <p className={cn("text-[10px]", isDark ? "text-sand/40" : "text-rich-black/40")}>
+                          {order.price}
+                        </p>
+                      </div>
+
+                      {/* Status */}
+                      {order.status === "Delivered" ? (
+                        <div className="w-5 h-5 rounded-full bg-copper/10 flex items-center justify-center flex-shrink-0">
+                          <Check size={11} className="text-copper" strokeWidth={3} />
+                        </div>
+                      ) : (
+                        <div className="flex-shrink-0">
+                          <div className="w-5 h-5 rounded-full border-2 border-gold/30 border-t-gold animate-spin" />
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+
+                  {/* Trust badge inside phone */}
                   <motion.div
-                    key={bubble.name}
-                    className={cn("absolute z-10 flex items-center gap-2 rounded-2xl p-3 shadow-lg", isDark ? "bg-[#1E1E1E] shadow-black/20" : "bg-white shadow-rich-black/5")}
-                    style={{
-                      top: bubble.top,
-                      left: bubble.left,
-                    }}
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{
-                      duration: 3 + index * 0.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.4, duration: 0.5 }}
+                    className="flex items-center justify-center gap-1.5 pt-2"
                   >
-                    <span className="text-lg" role="img" aria-label={bubble.name}>
-                      {bubble.emoji}
-                    </span>
-                    <span className={cn("text-xs font-semibold whitespace-nowrap", isDark ? "text-sand/80" : "text-rich-black/80")}>
-                      {bubble.name}
+                    <Shield size={10} className="text-copper/60" />
+                    <span className={cn("text-[9px] font-medium", isDark ? "text-sand/30" : "text-rich-black/30")}>
+                      Verified &middot; Encrypted &middot; Instant
                     </span>
                   </motion.div>
-                ))}
-
-                {/* Decorative geometric accent — subtle Islamic-geometry-inspired motif */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5">
-                  {[...Array(5)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-1 w-1 rounded-full bg-copper/30"
-                    />
-                  ))}
                 </div>
               </div>
             </div>
