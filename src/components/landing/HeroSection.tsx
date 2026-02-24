@@ -1,0 +1,243 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { useAppStore } from "@/stores/app-store";
+import { isRTL } from "@/lib/translations";
+import { cn } from "@/lib/utils";
+
+/* ------------------------------------------------------------------ */
+/*  Copy — trilingual                                                  */
+/* ------------------------------------------------------------------ */
+
+const copy = {
+  eyebrow: {
+    en: "For Mauritanians, by Mauritanians",
+    ar: "\u0645\u0646 \u0627\u0644\u0645\u0648\u0631\u064a\u062a\u0627\u0646\u064a\u064a\u0646\u060c \u0644\u0644\u0645\u0648\u0631\u064a\u062a\u0627\u0646\u064a\u064a\u0646",
+    fr: "Par les Mauritaniens, pour les Mauritaniens",
+  },
+  headlineLine1: {
+    en: "Your local money.",
+    ar: "\u0623\u0645\u0648\u0627\u0644\u0643 \u0627\u0644\u0645\u062d\u0644\u064a\u0629.",
+    fr: "Votre argent local.",
+  },
+  headlineLine2: {
+    en: "Global subscriptions.",
+    ar: "\u0627\u0634\u062a\u0631\u0627\u0643\u0627\u062a \u0639\u0627\u0644\u0645\u064a\u0629.",
+    fr: "Abonnements mondiaux.",
+  },
+  subtitle: {
+    en: "Use Bankily, Sedad, or any local e-wallet to pay for Spotify, Netflix, and 40+ digital services. No international card needed.",
+    ar: "\u0627\u0633\u062a\u062e\u062f\u0645 \u0628\u0646\u0643\u0644\u064a \u0623\u0648 \u0633\u062f\u0627\u062f \u0623\u0648 \u0623\u064a \u0645\u062d\u0641\u0638\u0629 \u0645\u062d\u0644\u064a\u0629 \u0644\u0644\u062f\u0641\u0639 \u0645\u0642\u0627\u0628\u0644 \u0633\u0628\u0648\u062a\u064a\u0641\u0627\u064a \u0648\u0646\u062a\u0641\u0644\u0643\u0633 \u0648\u0623\u0643\u062b\u0631 \u0645\u0646 40 \u062e\u062f\u0645\u0629 \u0631\u0642\u0645\u064a\u0629. \u0644\u0627 \u062d\u0627\u062c\u0629 \u0644\u0628\u0637\u0627\u0642\u0629 \u062f\u0648\u0644\u064a\u0629.",
+    fr: "Utilisez Bankily, Sedad ou tout e-wallet local pour payer Spotify, Netflix et plus de 40 services num\u00e9riques. Pas besoin de carte internationale.",
+  },
+  ctaPrimary: {
+    en: "Explore Services",
+    ar: "\u0627\u0633\u062a\u0643\u0634\u0641 \u0627\u0644\u062e\u062f\u0645\u0627\u062a",
+    fr: "Explorer les services",
+  },
+  ctaSecondary: {
+    en: "See how it works",
+    ar: "\u0634\u0627\u0647\u062f \u0643\u064a\u0641 \u064a\u0639\u0645\u0644",
+    fr: "Voir comment \u00e7a marche",
+  },
+} as const;
+
+/* ------------------------------------------------------------------ */
+/*  Floating service bubbles                                           */
+/* ------------------------------------------------------------------ */
+
+const serviceBubbles = [
+  { emoji: "\uD83C\uDFB5", name: "Spotify", top: "12%", left: "18%" },
+  { emoji: "\uD83C\uDFAC", name: "Netflix", top: "8%", left: "58%" },
+  { emoji: "\uD83D\uDCBB", name: "ChatGPT", top: "35%", left: "8%" },
+  { emoji: "\uD83D\uDCFA", name: "YouTube", top: "32%", left: "62%" },
+  { emoji: "\uD83C\uDFAE", name: "PlayStation", top: "58%", left: "22%" },
+  { emoji: "\uD83D\uDCF1", name: "Apple", top: "55%", left: "56%" },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Luxury easing curve                                                */
+/* ------------------------------------------------------------------ */
+
+const luxuryEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+/* ------------------------------------------------------------------ */
+/*  Component                                                          */
+/* ------------------------------------------------------------------ */
+
+export function HeroSection() {
+  const { language, theme } = useAppStore();
+  const isDark = theme === "dark";
+  const rtl = isRTL(language);
+
+  /* Parallax -------------------------------------------------------- */
+  const { scrollY } = useScroll();
+  const archY = useTransform(scrollY, [0, 500], [0, -40]);
+
+  return (
+    <section
+      className={cn(
+        "grain relative overflow-hidden min-h-[auto] md:min-h-[90vh]",
+        "pt-24 sm:pt-36",
+        isDark ? "bg-[#131313]" : "bg-sand"
+      )}
+      dir={rtl ? "rtl" : "ltr"}
+    >
+      {/* -------- Content wrapper -------- */}
+      <div className="relative z-10 mx-auto max-w-7xl w-full px-5 sm:px-8 lg:px-12">
+        <div className="flex flex-col md:flex-row items-center">
+          {/* ======================================================== */}
+          {/*  LEFT SIDE — editorial copy                               */}
+          {/* ======================================================== */}
+          <div className="w-full md:w-[60%] py-6 sm:py-12 md:py-0">
+            {/* Eyebrow */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, ease: luxuryEase }}
+              className="text-xs font-semibold uppercase tracking-widest text-copper"
+            >
+              {copy.eyebrow[language]}
+            </motion.p>
+
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, ease: luxuryEase }}
+              className="mt-4 font-[family-name:var(--font-playfair)] text-[2.5rem] sm:text-6xl lg:text-7xl leading-[1.08] tracking-tight"
+            >
+              <span className={cn(isDark ? "text-sand" : "text-rich-black")}>
+                {copy.headlineLine1[language]}
+              </span>
+              <br />
+              <span className="text-copper">
+                {copy.headlineLine2[language]}
+              </span>
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, ease: luxuryEase }}
+              className={cn("mt-4 sm:mt-6 max-w-lg text-base sm:text-lg leading-relaxed", isDark ? "text-sand/60" : "text-rich-black/60")}
+            >
+              {copy.subtitle[language]}
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, ease: luxuryEase }}
+              className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4"
+            >
+              {/* Primary CTA */}
+              <Link
+                href="/catalog"
+                className={cn(
+                  "btn-fill group inline-flex items-center justify-center gap-2 rounded-full bg-copper px-8 py-4 text-base font-semibold text-white w-full sm:w-auto",
+                  "transition-all hover:shadow-lg hover:shadow-copper/20 active:scale-[0.98]"
+                )}
+              >
+                {copy.ctaPrimary[language]}
+                <ArrowRight
+                  size={18}
+                  className={cn(
+                    "transition-transform group-hover:translate-x-1",
+                    rtl && "rotate-180 group-hover:-translate-x-1 group-hover:translate-x-0"
+                  )}
+                />
+              </Link>
+
+              {/* Secondary CTA */}
+              <Link
+                href="#how-it-works"
+                className={cn(
+                  "text-base font-medium border-b pb-0.5",
+                  "transition-colors hover:border-copper hover:text-copper",
+                  isDark ? "text-sand border-sand/30" : "text-rich-black border-rich-black/30"
+                )}
+              >
+                {copy.ctaSecondary[language]}
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* ======================================================== */}
+          {/*  RIGHT SIDE — arch composition (desktop only)             */}
+          {/* ======================================================== */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, ease: luxuryEase }}
+            style={{ y: archY }}
+            className="hidden md:flex w-[40%] items-center justify-center py-8"
+          >
+            {/* Moorish arch container */}
+            <div className="relative w-[320px] lg:w-[360px] h-[440px] lg:h-[500px]">
+              <div
+                className={cn(
+                  "grain absolute inset-0 overflow-hidden rounded-t-[50%]",
+                  isDark ? "bg-gradient-to-b from-[#131313] via-copper/8 to-[#131313]" : "bg-gradient-to-b from-sand via-copper/5 to-sand"
+                )}
+                style={{
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                }}
+              >
+                {/* Subtle inner border for arch elegance */}
+                <div
+                  className="absolute inset-3 rounded-t-[50%] border border-copper/10"
+                  style={{
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0,
+                  }}
+                />
+
+                {/* Floating service bubbles */}
+                {serviceBubbles.map((bubble, index) => (
+                  <motion.div
+                    key={bubble.name}
+                    className={cn("absolute z-10 flex items-center gap-2 rounded-2xl p-3 shadow-lg", isDark ? "bg-[#1E1E1E] shadow-black/20" : "bg-white shadow-rich-black/5")}
+                    style={{
+                      top: bubble.top,
+                      left: bubble.left,
+                    }}
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{
+                      duration: 3 + index * 0.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <span className="text-lg" role="img" aria-label={bubble.name}>
+                      {bubble.emoji}
+                    </span>
+                    <span className={cn("text-xs font-semibold whitespace-nowrap", isDark ? "text-sand/80" : "text-rich-black/80")}>
+                      {bubble.name}
+                    </span>
+                  </motion.div>
+                ))}
+
+                {/* Decorative geometric accent — subtle Islamic-geometry-inspired motif */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5">
+                  {[...Array(5)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-1 w-1 rounded-full bg-copper/30"
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}

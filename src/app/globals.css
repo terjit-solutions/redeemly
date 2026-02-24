@@ -1,26 +1,228 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* New palette — Saharan warmth */
+  --color-sand: #F5F0E8;
+  --color-sand-dark: #EBE4D6;
+  --color-sand-light: #FAF8F3;
+  --color-charcoal: #1A1A1A;
+  --color-charcoal-light: #2A2A2A;
+  --color-copper: #C4713B;
+  --color-copper-light: #D4874F;
+  --color-copper-dark: #A85E2F;
+  --color-indigo: #2D3A6D;
+  --color-indigo-light: #3D4E8A;
+  --color-gold: #C9A84C;
+  --color-gold-light: #D9BC6A;
+  --color-gold-dark: #B09540;
+  --color-rich-black: #1A1A1A;
+
+  /* Legacy aliases for other pages that still use them */
+  --color-navy: #1A1A1A;
+  --color-navy-light: #2A2A2A;
+  --color-navy-lighter: #3A3A3A;
+  --color-teal: #C4713B;
+  --color-teal-dark: #A85E2F;
+  --color-teal-light: #D4874F;
+  --color-warm-white: #F5F0E8;
+  --color-warm-gray: #EBE4D6;
+  --color-card-dark: rgba(42, 42, 42, 0.6);
+  --color-card-light: rgba(255, 255, 255, 0.8);
+  --color-glass-dark: rgba(26, 26, 26, 0.85);
+  --color-glass-light: rgba(245, 240, 232, 0.85);
+  --color-border-dark: rgba(201, 168, 76, 0.15);
+  --color-border-light: rgba(26, 26, 26, 0.08);
+
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-arabic: "Amiri", "Noto Naskh Arabic", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #F5F0E8;
+  --foreground: #1A1A1A;
+  --card-bg: #FFFFFF;
+  --card-border: rgba(26, 26, 26, 0.06);
+  --muted: rgba(26, 26, 26, 0.5);
+  --surface: #FAF8F3;
+  --surface-elevated: #FFFFFF;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #131313;
+  --foreground: #F5F0E8;
+  --card-bg: #1E1E1E;
+  --card-border: rgba(201, 168, 76, 0.12);
+  --muted: rgba(245, 240, 232, 0.45);
+  --surface: #1A1A1A;
+  --surface-elevated: #242424;
+  color-scheme: dark;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-copper) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[dir="rtl"] body,
+[dir="rtl"] * {
+  font-family: var(--font-arabic), var(--font-sans);
+}
+
+::selection {
+  background-color: rgba(196, 113, 59, 0.25);
+  color: inherit;
+}
+
+/* Paper / grain texture overlay */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Islamic geometric pattern - subtle background */
+.geo-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='%23C9A84C' stroke-width='0.5'/%3E%3Cpath d='M40 10L70 40L40 70L10 40Z' fill='none' stroke='%23C9A84C' stroke-width='0.5'/%3E%3Cpath d='M40 20L60 40L40 60L20 40Z' fill='none' stroke='%23C9A84C' stroke-width='0.5'/%3E%3Ccircle cx='40' cy='40' r='5' fill='none' stroke='%23C9A84C' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+/* Glass morphism - updated for warm palette */
+.glass-dark {
+  background: rgba(19, 19, 19, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.glass-light {
+  background: rgba(245, 240, 232, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(26, 26, 26, 0.06);
+}
+
+/* Auto-switch glass based on theme */
+.glass {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+:root .glass {
+  background: rgba(245, 240, 232, 0.85);
+  border: 1px solid rgba(26, 26, 26, 0.06);
+}
+.dark .glass {
+  background: rgba(19, 19, 19, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+/* Smooth page transitions */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Button fill animation */
+.btn-fill {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.btn-fill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  transition: width 0.4s ease;
+  z-index: -1;
+}
+.btn-fill:hover::before {
+  width: 100%;
+}
+
+/* Skeleton loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(196, 113, 59, 0.05) 25%,
+    rgba(196, 113, 59, 0.1) 50%,
+    rgba(196, 113, 59, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Thin decorative rule */
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-gold), transparent);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-copper), var(--color-copper-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth transitions for theme switching */
+html.transitioning,
+html.transitioning *,
+html.transitioning *::before,
+html.transitioning *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
 }
