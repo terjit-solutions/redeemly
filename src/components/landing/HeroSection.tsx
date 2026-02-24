@@ -61,7 +61,7 @@ export function HeroSection() {
     <section
       className={cn(
         "grain relative overflow-hidden",
-        "pt-32 sm:pt-40 md:pt-44 pb-10 sm:pb-12 md:pb-6",
+        "pt-32 sm:pt-40 md:pt-44 pb-16 sm:pb-20 md:pb-14",
         isDark ? "bg-[#131313]" : "bg-sand"
       )}
       dir={rtl ? "rtl" : "ltr"}
