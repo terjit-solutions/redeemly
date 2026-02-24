@@ -61,7 +61,7 @@ export function HeroSection() {
     <section
       className={cn(
         "grain relative overflow-hidden min-h-[auto] md:min-h-[90vh]",
-        "pt-24 sm:pt-36 pb-12 sm:pb-16 md:pb-0",
+        "pt-32 sm:pt-40 md:pt-44 pb-12 sm:pb-16 md:pb-0",
         isDark ? "bg-[#131313]" : "bg-sand"
       )}
       dir={rtl ? "rtl" : "ltr"}
@@ -138,7 +138,7 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* ============ RIGHT SIDE — Phone mockup ============ */}
+          {/* ============ RIGHT SIDE — Realistic phone ============ */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -146,103 +146,129 @@ export function HeroSection() {
             style={{ y: phoneY }}
             className="hidden md:flex w-[45%] items-center justify-center py-8"
           >
-            {/* Phone frame */}
-            <div
-              className={cn(
-                "relative w-[280px] lg:w-[300px] rounded-[2.5rem] p-3 shadow-2xl",
-                isDark
-                  ? "bg-[#1E1E1E] shadow-black/40"
-                  : "bg-rich-black shadow-rich-black/20"
-              )}
-            >
-              {/* Notch */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-inherit rounded-b-2xl z-10" />
+            <div className="relative">
+              {/* Side buttons — left: silent + volume */}
+              <div className="absolute -left-[2px] top-[100px] w-[3px] h-[28px] rounded-l-sm bg-[#2A2A2A]" />
+              <div className="absolute -left-[2px] top-[148px] w-[3px] h-[52px] rounded-l-sm bg-[#2A2A2A]" />
+              <div className="absolute -left-[2px] top-[210px] w-[3px] h-[52px] rounded-l-sm bg-[#2A2A2A]" />
+              {/* Side button — right: power */}
+              <div className="absolute -right-[2px] top-[160px] w-[3px] h-[72px] rounded-r-sm bg-[#2A2A2A]" />
 
-              {/* Screen */}
+              {/* Phone body */}
               <div
-                className={cn(
-                  "rounded-[2rem] overflow-hidden",
-                  isDark ? "bg-[#131313]" : "bg-sand"
-                )}
+                className="relative w-[272px] lg:w-[290px] rounded-[3rem] border-[6px] shadow-2xl overflow-hidden"
+                style={{
+                  borderColor: isDark ? "#2A2A2A" : "#1A1A1A",
+                  boxShadow: isDark
+                    ? "0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)"
+                    : "0 25px 60px rgba(26,26,26,0.25), 0 0 0 1px rgba(0,0,0,0.1)",
+                }}
               >
-                {/* Status bar */}
-                <div className={cn("flex items-center justify-between px-6 pt-8 pb-3", isDark ? "text-sand/40" : "text-rich-black/40")}>
-                  <span className="text-[10px] font-medium">9:41</span>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3.5 h-[3px] rounded-full bg-current" />
-                    <div className="w-2.5 h-[3px] rounded-full bg-current opacity-60" />
-                    <div className="w-1.5 h-[3px] rounded-full bg-current opacity-30" />
+                {/* Screen */}
+                <div className={cn("relative", isDark ? "bg-[#0A0A0A]" : "bg-sand-light")}>
+
+                  {/* Dynamic Island */}
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 w-[90px] h-[26px] bg-black rounded-full flex items-center justify-center">
+                    <div className="w-[10px] h-[10px] rounded-full bg-[#1A1A2E] border border-[#2A2A3A] ml-6" />
                   </div>
-                </div>
 
-                {/* App header */}
-                <div className="px-5 pb-4">
-                  <p className="font-[family-name:var(--font-playfair)] text-lg font-bold text-copper">
-                    Redeemly
-                  </p>
-                  <p className={cn("text-[10px] mt-0.5", isDark ? "text-sand/40" : "text-rich-black/40")}>
-                    Your recent orders
-                  </p>
-                </div>
+                  {/* Status bar */}
+                  <div className={cn(
+                    "flex items-center justify-between px-7 pt-4 pb-2 text-[11px] font-semibold",
+                    isDark ? "text-sand/70" : "text-rich-black/70"
+                  )}>
+                    <span>11:28</span>
+                    <div className="flex items-center gap-1">
+                      {/* Signal bars */}
+                      <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" className="opacity-70">
+                        <rect x="0" y="8" width="3" height="3" rx="0.5" />
+                        <rect x="4.5" y="5" width="3" height="6" rx="0.5" />
+                        <rect x="9" y="2" width="3" height="9" rx="0.5" />
+                        <rect x="13.5" y="0" width="2.5" height="11" rx="0.5" opacity="0.3" />
+                      </svg>
+                      {/* WiFi */}
+                      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" className="opacity-70">
+                        <path d="M1 3.5C3.5 1 10.5 1 13 3.5" />
+                        <path d="M3.5 6C5 4.5 9 4.5 10.5 6" />
+                        <circle cx="7" cy="8.5" r="1" fill="currentColor" stroke="none" />
+                      </svg>
+                      {/* Battery */}
+                      <svg width="22" height="11" viewBox="0 0 22 11" className="opacity-70">
+                        <rect x="0.5" y="0.5" width="18" height="10" rx="2" stroke="currentColor" strokeWidth="1" fill="none" />
+                        <rect x="2" y="2" width="12" height="7" rx="1" fill="currentColor" />
+                        <rect x="19" y="3" width="2.5" height="5" rx="1" fill="currentColor" opacity="0.4" />
+                      </svg>
+                    </div>
+                  </div>
 
-                {/* Order cards */}
-                <div className="px-4 pb-6 space-y-2.5">
-                  {mockOrders.map((order, i) => (
+                  {/* App content */}
+                  <div className="px-4 pt-6 pb-2">
+                    {/* App header */}
+                    <div className="px-1 pb-4">
+                      <p className="font-[family-name:var(--font-playfair)] text-lg font-bold text-copper">
+                        Redeemly
+                      </p>
+                      <p className={cn("text-[10px] mt-0.5", isDark ? "text-sand/40" : "text-rich-black/40")}>
+                        Your recent orders
+                      </p>
+                    </div>
+
+                    {/* Order list */}
+                    <div className="space-y-2.5">
+                      {mockOrders.map((order, i) => (
+                        <motion.div
+                          key={order.name}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.8 + i * 0.15, duration: 0.5, ease: luxuryEase }}
+                          className={cn(
+                            "flex items-center gap-3 p-3 rounded-2xl",
+                            isDark ? "bg-[#1A1A1A]" : "bg-white"
+                          )}
+                        >
+                          <div
+                            className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                            style={{ backgroundColor: order.color }}
+                          >
+                            <span className="text-white text-xs font-bold">{order.name.charAt(0)}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className={cn("text-xs font-semibold truncate", isDark ? "text-sand" : "text-rich-black")}>
+                              {order.name}
+                            </p>
+                            <p className={cn("text-[10px]", isDark ? "text-sand/40" : "text-rich-black/40")}>
+                              {order.price}
+                            </p>
+                          </div>
+                          {order.status === "Delivered" ? (
+                            <div className="w-5 h-5 rounded-full bg-copper/10 flex items-center justify-center flex-shrink-0">
+                              <Check size={11} className="text-copper" strokeWidth={3} />
+                            </div>
+                          ) : (
+                            <div className="w-5 h-5 rounded-full border-2 border-gold/30 border-t-gold animate-spin flex-shrink-0" />
+                          )}
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* Trust line */}
                     <motion.div
-                      key={order.name}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.8 + i * 0.15, duration: 0.5, ease: luxuryEase }}
-                      className={cn(
-                        "flex items-center gap-3 p-3 rounded-xl",
-                        isDark ? "bg-[#1E1E1E]" : "bg-white"
-                      )}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1.4, duration: 0.5 }}
+                      className="flex items-center justify-center gap-1.5 pt-3 pb-1"
                     >
-                      {/* Brand dot */}
-                      <div
-                        className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: order.color }}
-                      >
-                        <span className="text-white text-xs font-bold">
-                          {order.name.charAt(0)}
-                        </span>
-                      </div>
-
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <p className={cn("text-xs font-semibold truncate", isDark ? "text-sand" : "text-rich-black")}>
-                          {order.name}
-                        </p>
-                        <p className={cn("text-[10px]", isDark ? "text-sand/40" : "text-rich-black/40")}>
-                          {order.price}
-                        </p>
-                      </div>
-
-                      {/* Status */}
-                      {order.status === "Delivered" ? (
-                        <div className="w-5 h-5 rounded-full bg-copper/10 flex items-center justify-center flex-shrink-0">
-                          <Check size={11} className="text-copper" strokeWidth={3} />
-                        </div>
-                      ) : (
-                        <div className="flex-shrink-0">
-                          <div className="w-5 h-5 rounded-full border-2 border-gold/30 border-t-gold animate-spin" />
-                        </div>
-                      )}
+                      <Shield size={9} className="text-copper/50" />
+                      <span className={cn("text-[8px] font-medium", isDark ? "text-sand/25" : "text-rich-black/25")}>
+                        Verified &middot; Encrypted &middot; Instant
+                      </span>
                     </motion.div>
-                  ))}
+                  </div>
 
-                  {/* Trust badge inside phone */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.4, duration: 0.5 }}
-                    className="flex items-center justify-center gap-1.5 pt-2"
-                  >
-                    <Shield size={10} className="text-copper/60" />
-                    <span className={cn("text-[9px] font-medium", isDark ? "text-sand/30" : "text-rich-black/30")}>
-                      Verified &middot; Encrypted &middot; Instant
-                    </span>
-                  </motion.div>
+                  {/* Home indicator */}
+                  <div className="flex justify-center pb-2 pt-1">
+                    <div className={cn("w-28 h-1 rounded-full", isDark ? "bg-sand/20" : "bg-rich-black/20")} />
+                  </div>
                 </div>
               </div>
             </div>
