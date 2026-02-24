@@ -14,8 +14,7 @@ const languages: { code: Language; label: string; flag: string }[] = [
 export function LanguageSwitcher() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { language, setLanguage, theme } = useAppStore();
-  const isDark = theme === "dark";
+  const { language, setLanguage } = useAppStore();
 
   const current = languages.find((l) => l.code === language) || languages[2];
 
@@ -33,12 +32,7 @@ export function LanguageSwitcher() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={cn(
-          "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-colors",
-          isDark
-            ? "text-sand/60 hover:text-sand border-sand/[0.1] hover:border-sand/[0.2]"
-            : "text-rich-black/60 hover:text-rich-black border-rich-black/[0.08] hover:border-rich-black/[0.15]"
-        )}
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-colors text-foreground/60 hover:text-foreground border-foreground/[0.08] hover:border-foreground/[0.15]"
       >
         <span className="text-base">{current.flag}</span>
         <span className="hidden sm:inline text-[13px]">{current.label}</span>
@@ -51,12 +45,8 @@ export function LanguageSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className={cn(
-              "absolute top-full mt-2 right-0 rounded-xl overflow-hidden shadow-xl min-w-[150px]",
-              isDark
-                ? "bg-[#1E1E1E] border border-gold/10"
-                : "bg-sand-light border border-rich-black/[0.06]"
-            )}
+            className="absolute top-full mt-2 right-0 rounded-xl overflow-hidden shadow-xl min-w-[150px] border border-foreground/[0.06]"
+            style={{ backgroundColor: "var(--surface-elevated)" }}
           >
             {languages.map((lang) => (
               <button
@@ -69,9 +59,7 @@ export function LanguageSwitcher() {
                   "w-full flex items-center gap-3 px-4 py-3 text-sm transition-colors",
                   language === lang.code
                     ? "text-copper bg-copper/5 font-medium"
-                    : isDark
-                      ? "text-sand/70 hover:bg-sand/[0.03]"
-                      : "text-rich-black/70 hover:bg-rich-black/[0.03]"
+                    : "text-foreground/70 hover:bg-foreground/[0.03]"
                 )}
               >
                 <span className="text-lg">{lang.flag}</span>

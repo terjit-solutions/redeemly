@@ -223,8 +223,10 @@ export function LandingFooter() {
               {copy.rights[language]}
             </p>
             <p className="text-sand/30 text-xs">
-              Made with &#9829; in{" "}
-              <span className="text-sand/50">Nouakchott, Mauritania</span>{" "}
+              Made by{" "}
+              <a href="https://terjitsolutions.com" target="_blank" rel="noopener noreferrer" className="text-sand/50 hover:text-copper transition-colors">
+                Terjit Solutions
+              </a>{" "}
               <span role="img" aria-label="Mauritania">🇲🇷</span>
             </p>
           </div>
